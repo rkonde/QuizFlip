@@ -4,14 +4,22 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   clamp,
   interpolateColor,
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 
 const { width } = Dimensions.get("window");
 
-const FlipCard = () => {
+type FlipCardProps = {
+  frontText: string;
+  backText: string;
+  onComplete: () => void;
+};
+
+const FlipCard = ({ frontText, backText, onComplete }: FlipCardProps) => {
   const isFlipped = useSharedValue(false);
   const rotation = useSharedValue(0);
   const translationX = useSharedValue(0);
@@ -39,14 +47,22 @@ const FlipCard = () => {
       );
     })
     .onEnd(() => {
-      translationX.value = withSpring(0);
+      if (Math.abs(translationX.value) >= 100) {
+        translationX.value = withTiming(
+          Math.sign(translationX.value) * 2 * width,
+          {},
+          () => runOnJS(onComplete)()
+        );
+      } else {
+        translationX.value = withSpring(0);
+      }
     });
 
   const frontAnimatedStyle = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(
       translationX.value,
       [-100, 0, 100],
-      ["red", "white", "green"]
+      ["#ff4242", "white", "#67f948"]
     );
 
     return {
@@ -56,6 +72,9 @@ const FlipCard = () => {
         },
         {
           translateX: translationX.value,
+        },
+        {
+          rotateZ: `${translationX.value / 10}deg`,
         },
       ],
       backgroundColor,
@@ -78,6 +97,9 @@ const FlipCard = () => {
         {
           translateX: translationX.value,
         },
+        {
+          rotateZ: `${translationX.value / 10}deg`,
+        },
       ],
       backgroundColor,
       backfaceVisibility: "hidden",
@@ -89,12 +111,12 @@ const FlipCard = () => {
       <GestureDetector gesture={Gesture.Race(tapGesture, panGesture)}>
         <Animated.View style={{ position: "relative" }}>
           <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
-            <Text style={styles.flipText}>Front Side</Text>
+            <Text style={styles.flipText}>{frontText}</Text>
           </Animated.View>
           <Animated.View
             style={[styles.flipCard, styles.flipCardBack, backAnimatedStyle]}
           >
-            <Text style={styles.flipText}>Back Side</Text>
+            <Text style={styles.flipText}>{backText}</Text>
           </Animated.View>
         </Animated.View>
       </GestureDetector>
@@ -107,11 +129,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    position: "absolute",
   },
 
   flipCard: {
-    width: width * 0.4,
-    height: width * 0.4,
+    width: width * 0.8,
+    height: width,
     justifyContent: "center",
     alignItems: "center",
     backfaceVisibility: "hidden",
