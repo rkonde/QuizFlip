@@ -1,5 +1,5 @@
-import React from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { Dimensions, StyleSheet, Text } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   clamp,
@@ -17,13 +17,26 @@ type FlipCardProps = {
   frontText: string;
   backText: string;
   onComplete: () => void;
+  onWrong: () => void;
+  index: number;
 };
 
-const FlipCard = ({ frontText, backText, onComplete }: FlipCardProps) => {
+const FlipCard = ({
+  frontText,
+  backText,
+  onComplete,
+  onWrong,
+  index,
+}: FlipCardProps) => {
   const isFlipped = useSharedValue(false);
   const rotation = useSharedValue(0);
   const translationX = useSharedValue(0);
   const prevTranslationX = useSharedValue(0);
+  const cardRotation = useSharedValue(0);
+
+  useEffect(() => {
+    cardRotation.value = withSpring(index >= 3 ? 3 : index * 4);
+  }, [index]);
 
   const tapGesture = Gesture.Tap().onStart(() => {
     if (isFlipped.value) {
@@ -47,11 +60,13 @@ const FlipCard = ({ frontText, backText, onComplete }: FlipCardProps) => {
       );
     })
     .onEnd(() => {
-      if (Math.abs(translationX.value) >= 100) {
-        translationX.value = withTiming(
-          Math.sign(translationX.value) * 2 * width,
-          {},
-          () => runOnJS(onComplete)()
+      if (translationX.value >= 100) {
+        translationX.value = withTiming(2 * width, {}, () =>
+          runOnJS(onComplete)()
+        );
+      } else if (translationX.value <= -100) {
+        translationX.value = withTiming(-2 * width, {}, () =>
+          runOnJS(onWrong)()
         );
       } else {
         translationX.value = withSpring(0);
@@ -106,8 +121,14 @@ const FlipCard = ({ frontText, backText, onComplete }: FlipCardProps) => {
     };
   });
 
+  const containerStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ rotate: `${cardRotation.value}deg` }],
+    };
+  });
+
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, containerStyle]}>
       <GestureDetector gesture={Gesture.Race(tapGesture, panGesture)}>
         <Animated.View style={{ position: "relative" }}>
           <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
@@ -120,7 +141,7 @@ const FlipCard = ({ frontText, backText, onComplete }: FlipCardProps) => {
           </Animated.View>
         </Animated.View>
       </GestureDetector>
-    </View>
+    </Animated.View>
   );
 };
 
