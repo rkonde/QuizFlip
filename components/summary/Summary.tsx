@@ -1,0 +1,66 @@
+import { RootStackScreenProps } from "@/navigation/types";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+const Summary = () => {
+  const navigation = useNavigation();
+  const {
+    params: { title, correctAnswers, incorrectAnswers },
+  } = useRoute<RootStackScreenProps<"Summary">["route"]>();
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Summary</Text>
+      <Text style={styles.quizTitle}>Quiz: {title}</Text>
+      <Text style={styles.summaryText}>Correct Answers: {correctAnswers}</Text>
+      <Text style={styles.summaryText}>
+        Incorrect Answers: {incorrectAnswers}
+      </Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("Home")}
+      >
+        <Text style={styles.buttonText}>Back to Home</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 16,
+    backgroundColor: "#fff",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  quizTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  summaryText: {
+    fontSize: 18,
+    marginBottom: 8,
+  },
+  button: {
+    padding: 16,
+    backgroundColor: "#007bff",
+    borderRadius: 8,
+    alignItems: "center",
+    marginTop: 16,
+    width: "80%",
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+  },
+});
+
+export default Summary;

@@ -35,7 +35,7 @@ const FlipCard = ({
   const cardRotation = useSharedValue(0);
 
   useEffect(() => {
-    cardRotation.value = withSpring(index >= 3 ? 3 : index * 4);
+    cardRotation.value = withSpring(index >= 3 ? 2 * 4 : index * 4);
   }, [index]);
 
   const tapGesture = Gesture.Tap().onStart(() => {
