@@ -6,7 +6,13 @@ import { RootStackScreenProps } from "@/navigation/types";
 import { Card } from "@/types/Card";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "expo-router";
-
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
 export default function Quiz() {
   const navigation = useNavigation();
   const {
@@ -17,6 +23,37 @@ export default function Quiz() {
   const [wrongAmount, setWrongAmount] = useState(0);
 
   const [quizCards, setQuizCards] = useState<Card[]>(cards);
+
+  const correctTranslationY = useSharedValue(0);
+  const wrongTranslationY = useSharedValue(0);
+
+  const correctTextAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: correctTranslationY.value,
+        },
+      ],
+    };
+  });
+
+  const wrongTextAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: wrongTranslationY.value,
+        },
+      ],
+    };
+  });
+
+  useEffect(() => {
+    correctTranslationY.value = withSequence(withTiming(-10), withSpring(0));
+  }, [correctAmount]);
+
+  useEffect(() => {
+    wrongTranslationY.value = withSequence(withTiming(-10), withSpring(0));
+  }, [wrongAmount]);
 
   const handleSwipeRight = () => {
     handleSwipe();
@@ -38,11 +75,13 @@ export default function Quiz() {
       quizCards.length === 0 &&
       correctAmount + wrongAmount === cards.length
     ) {
-      navigation.navigate("Summary", {
-        title: title,
-        correctAnswers: correctAmount,
-        incorrectAnswers: wrongAmount,
-      });
+      setTimeout(() => {
+        navigation.navigate("Summary", {
+          title: title,
+          correctAnswers: correctAmount,
+          incorrectAnswers: wrongAmount,
+        });
+      }, 750);
     }
   }, [quizCards, correctAmount, wrongAmount]);
 
@@ -64,9 +103,13 @@ export default function Quiz() {
             />
           ))}
       </View>
-      <View style={{ padding: 8 }}>
-        <Text>Corret: {correctAmount}</Text>
-        <Text>Wrong: {wrongAmount}</Text>
+      <View style={{ padding: 8, flexDirection: "row", gap: 16 }}>
+        <Animated.Text style={correctTextAnimatedStyle}>
+          Corret: {correctAmount}
+        </Animated.Text>
+        <Animated.Text style={wrongTextAnimatedStyle}>
+          Wrong: {wrongAmount}
+        </Animated.Text>
       </View>
     </View>
   );
