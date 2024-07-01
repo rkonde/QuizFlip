@@ -11,8 +11,7 @@ const Summary = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Summary</Text>
-      <Text style={styles.quizTitle}>Quiz: {title}</Text>
+      <Text style={styles.title}>{title}</Text>
       <Text style={styles.summaryText}>Correct Answers: {correctAnswers}</Text>
       <Text style={styles.summaryText}>
         Incorrect Answers: {incorrectAnswers}
@@ -37,11 +36,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 16,
-  },
-  quizTitle: {
-    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 16,
   },

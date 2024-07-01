@@ -1,3 +1,4 @@
+import { quizzes } from "@/constants/Quizzes";
 import { Quiz } from "@/types/Quiz";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
@@ -8,65 +9,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-
-const quizzes = [
-  {
-    id: 1,
-    title: "Math Quiz",
-    cards: [
-      { id: 1, front: "What is 2 + 2?", back: "4" },
-      { id: 2, front: "What is 3 * 3?", back: "9" },
-    ],
-  },
-  {
-    id: 2,
-    title: "Science Quiz",
-    cards: [
-      { id: 1, front: "What planet is known as the Red Planet?", back: "Mars" },
-      { id: 2, front: "What is the chemical symbol for water?", back: "H2O" },
-    ],
-  },
-  {
-    id: 3,
-    title: "History Quiz",
-    cards: [
-      {
-        id: 1,
-        front: "Who was the first President of the United States?",
-        back: "George Washington",
-      },
-      { id: 2, front: "In which year did World War II end?", back: "1945" },
-    ],
-  },
-  {
-    id: 4,
-    title: "Geography Quiz",
-    cards: [
-      { id: 1, front: "What is the capital of France?", back: "Paris" },
-      {
-        id: 2,
-        front: "Which continent is the Sahara Desert located on?",
-        back: "Africa",
-      },
-    ],
-  },
-  {
-    id: 5,
-    title: "Literature Quiz",
-    cards: [
-      {
-        id: 1,
-        front: 'Who wrote "Romeo and Juliet"?',
-        back: "William Shakespeare",
-      },
-      {
-        id: 2,
-        front: "What is the title of the first Harry Potter book?",
-        back: "Harry Potter and the Philosopher's Stone",
-      },
-    ],
-  },
-];
 
 const Home = () => {
   const navigation = useNavigation();
