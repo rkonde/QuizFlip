@@ -13,6 +13,7 @@ import {
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import FrontBackInput from "./ui/FrontBackInput";
 
 const QuizFormScreen = () => {
   const navigation = useNavigation();
@@ -36,15 +37,15 @@ const QuizFormScreen = () => {
     }
   }, []);
 
-  const handleAddCard = () => {
+  const onAddCard = () => {
     setCards([...cards, { front: "", back: "" }]);
   };
 
-  const handleRemoveCard = (cardIndex: number) => {
+  const onDeleteCard = (cardIndex: number) => {
     setCards(cards.filter((card, index) => index !== cardIndex));
   };
 
-  const handleSaveQuiz = () => {
+  const onSaveQuiz = () => {
     if (params?.quizId) {
       dispatch(editQuiz({ id: params.quizId, title, cards }));
     } else {
@@ -54,7 +55,7 @@ const QuizFormScreen = () => {
     navigation.navigate("Home");
   };
 
-  const handleCardChange = (
+  const onCardChange = (
     cardIndex: number,
     field: "front" | "back",
     value: string
@@ -65,29 +66,6 @@ const QuizFormScreen = () => {
       )
     );
   };
-
-  const renderCardItem = (card: Card, cardIndex: number) => (
-    <View style={styles.cardItem} key={cardIndex}>
-      <TextInput
-        style={styles.cardInput}
-        placeholder="Card Front"
-        value={card.front}
-        onChangeText={(text) => handleCardChange(cardIndex, "front", text)}
-      />
-      <TextInput
-        style={styles.cardInput}
-        placeholder="Card Back"
-        value={card.back}
-        onChangeText={(text) => handleCardChange(cardIndex, "back", text)}
-      />
-      <TouchableOpacity
-        style={styles.removeButton}
-        onPress={() => handleRemoveCard(cardIndex)}
-      >
-        <Text style={styles.removeButtonText}>Remove</Text>
-      </TouchableOpacity>
-    </View>
-  );
 
   return (
     <View style={styles.container}>
@@ -103,13 +81,24 @@ const QuizFormScreen = () => {
       <ScrollView style={{ flex: 1 }}>
         {cards.length > 0 ? (
           cards.map((card, index) => {
-            return renderCardItem(card, index);
+            return (
+              <FrontBackInput
+                key={index}
+                front={card.front}
+                onFrontInputChange={(text) =>
+                  onCardChange(index, "front", text)
+                }
+                back={card.back}
+                onBackInputChange={(text) => onCardChange(index, "back", text)}
+                onDelete={() => onDeleteCard(index)}
+              />
+            );
           })
         ) : (
           <Text style={styles.emptyText}>No cards added yet</Text>
         )}
       </ScrollView>
-      <TouchableOpacity style={styles.addButton} onPress={handleAddCard}>
+      <TouchableOpacity style={styles.addButton} onPress={onAddCard}>
         <Text style={styles.addButtonText}>Add Card</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -117,7 +106,7 @@ const QuizFormScreen = () => {
           styles.saveButton,
           title.length === 0 && { backgroundColor: Colors.light.secondary },
         ]}
-        onPress={handleSaveQuiz}
+        onPress={onSaveQuiz}
         disabled={title.length === 0}
       >
         <Text style={styles.saveButtonText}>
@@ -134,11 +123,13 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: Colors.light.primary,
   },
+
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 16,
   },
+
   input: {
     height: 40,
     borderColor: Colors.light.secondary,
@@ -147,12 +138,15 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 8,
   },
+
   cardItem: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 8,
+    gap: 8,
   },
+
   cardInput: {
     flex: 1,
     height: 40,
@@ -160,23 +154,26 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     padding: 8,
-    marginHorizontal: 4,
   },
+
   removeButton: {
     backgroundColor: Colors.light.delete,
     padding: 8,
     borderRadius: 4,
   },
+
   removeButtonText: {
     color: Colors.light.primary,
     fontSize: 14,
   },
+
   emptyText: {
     textAlign: "center",
     fontSize: 16,
     color: Colors.light.text,
     marginBottom: 8,
   },
+
   addButton: {
     padding: 16,
     backgroundColor: Colors.light.edit,
@@ -184,16 +181,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 16,
   },
+
   addButtonText: {
     color: Colors.light.primary,
     fontSize: 18,
   },
+
   saveButton: {
     padding: 16,
     backgroundColor: Colors.light.confirm,
     borderRadius: 8,
     alignItems: "center",
   },
+
   saveButtonText: {
     color: Colors.light.primary,
     fontSize: 18,

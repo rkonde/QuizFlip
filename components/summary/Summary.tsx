@@ -33,15 +33,18 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: Colors.light.primary,
   },
+
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 16,
   },
+
   summaryText: {
     fontSize: 18,
     marginBottom: 8,
   },
+
   button: {
     padding: 16,
     backgroundColor: Colors.light.edit,
@@ -50,6 +53,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     width: "80%",
   },
+
   buttonText: {
     color: Colors.light.primary,
     fontSize: 18,

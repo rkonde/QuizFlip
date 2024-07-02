@@ -4,7 +4,6 @@ import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 import CreateQuizButton from "@/components/home/ui/CreateQuizButton";
-import NoQuizzes from "@/components/home/ui/NoQuizzes";
 import QuizItem from "@/components/home/ui/QuizItem";
 import { Colors } from "@/constants/Colors";
 import { removeQuiz, selectQuizzes } from "@/store/slices/quizSlice";
@@ -42,7 +41,9 @@ const Home = () => {
           />
         )}
         keyExtractor={(item) => item.id}
-        ListEmptyComponent={<NoQuizzes />}
+        ListEmptyComponent={
+          <Text style={styles.text}>No quizzes available</Text>
+        }
       />
       <CreateQuizButton onPress={() => navigation.navigate("Creator")} />
     </View>
@@ -60,6 +61,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 16,
+  },
+
+  text: {
+    textAlign: "center",
+    marginTop: 20,
+    fontSize: 16,
+    color: Colors.light.secondary,
   },
 });
 
