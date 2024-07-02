@@ -4,7 +4,7 @@ export type RootStackParamList = {
   Home: undefined;
   Creator: { quizId: string } | undefined;
   Quiz: { quizId: string };
-  Summary: { title: string; correctAnswers: number; incorrectAnswers: number };
+  Summary: { title: string; correctAnswers: number; wrongAnswers: number };
 };
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =

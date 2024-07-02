@@ -8,14 +8,14 @@ import { RootStackScreenProps } from "@/navigation/types";
 const Summary = () => {
   const navigation = useNavigation();
   const {
-    params: { title, correctAnswers, incorrectAnswers },
+    params: { title, correctAnswers, wrongAnswers },
   } = useRoute<RootStackScreenProps<"Summary">["route"]>();
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.summaryText}>Correct Answers: {correctAnswers}</Text>
-      <Text style={styles.summaryText}>Wrong Answers: {incorrectAnswers}</Text>
+      <Text style={styles.summaryText}>Wrong Answers: {wrongAnswers}</Text>
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("Home")}

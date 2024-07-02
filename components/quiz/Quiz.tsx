@@ -25,8 +25,8 @@ export default function Quiz() {
 
   const quiz = useSelector(selectQuiz(quizId));
 
-  const [correctAmount, setCorrectAmount] = useState(0);
-  const [wrongAmount, setWrongAmount] = useState(0);
+  const [correct, setCorrect] = useState(0);
+  const [wrong, setWrong] = useState(0);
 
   const [quizCards, setQuizCards] = useState<Card[]>(quiz.cards);
 
@@ -55,21 +55,21 @@ export default function Quiz() {
 
   useEffect(() => {
     correctTranslationY.value = withSequence(withTiming(-10), withSpring(0));
-  }, [correctAmount]);
+  }, [correct]);
 
   useEffect(() => {
     wrongTranslationY.value = withSequence(withTiming(-10), withSpring(0));
-  }, [wrongAmount]);
+  }, [wrong]);
 
   const handleSwipeRight = () => {
     handleSwipe();
-    setCorrectAmount((correctAmount) => correctAmount + 1);
+    setCorrect((correctAmount) => correctAmount + 1);
   };
 
   const handleSwipeLeft = () => {
     handleSwipe();
 
-    setWrongAmount((wrongAmount) => wrongAmount + 1);
+    setWrong((wrongAmount) => wrongAmount + 1);
   };
 
   const handleSwipe = () => {
@@ -77,19 +77,16 @@ export default function Quiz() {
   };
 
   useEffect(() => {
-    if (
-      quizCards.length === 0 &&
-      correctAmount + wrongAmount === quiz.cards.length
-    ) {
+    if (quizCards.length === 0 && correct + wrong === quiz.cards.length) {
       setTimeout(() => {
         navigation.navigate("Summary", {
           title: quiz.title,
-          correctAnswers: correctAmount,
-          incorrectAnswers: wrongAmount,
+          correctAnswers: correct,
+          wrongAnswers: wrong,
         });
       }, 750);
     }
-  }, [quizCards, correctAmount, wrongAmount]);
+  }, [quizCards, correct, wrong]);
 
   return (
     <View style={styles.container}>
@@ -113,12 +110,12 @@ export default function Quiz() {
         <Animated.Text
           style={[styles.score, styles.wrongScore, wrongTextAnimatedStyle]}
         >
-          {wrongAmount}
+          {wrong}
         </Animated.Text>
         <Animated.Text
           style={[styles.score, styles.correctScore, correctTextAnimatedStyle]}
         >
-          {correctAmount}
+          {correct}
         </Animated.Text>
       </View>
     </View>
