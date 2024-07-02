@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+import { Colors } from "@/constants/Colors";
 import { Quiz } from "@/types/Quiz";
 
 type QuizItemProps = {
@@ -16,10 +17,16 @@ const QuizItem = ({ quiz, onPress, onEdit, onDelete }: QuizItemProps) => {
       <View style={styles.header}>
         <Text style={styles.title}>{quiz.title}</Text>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.editButton} onPress={onEdit}>
+          <TouchableOpacity
+            style={[styles.button, styles.editButton]}
+            onPress={onEdit}
+          >
             <Text style={styles.buttonText}>Edit</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
+          <TouchableOpacity
+            style={[styles.button, styles.deleteButton]}
+            onPress={onDelete}
+          >
             <Text style={styles.buttonText}>Delete</Text>
           </TouchableOpacity>
         </View>
@@ -32,10 +39,10 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     marginBottom: 8,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: Colors.light.primary,
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: Colors.light.secondary,
   },
 
   header: {
@@ -55,20 +62,22 @@ const styles = StyleSheet.create({
     gap: 8,
   },
 
-  editButton: {
+  button: {
     padding: 8,
-    backgroundColor: "#007bff",
     borderRadius: 4,
+    alignItems: "center",
+  },
+
+  editButton: {
+    backgroundColor: Colors.light.edit,
   },
 
   deleteButton: {
-    padding: 8,
-    backgroundColor: "#ff4757",
-    borderRadius: 4,
+    backgroundColor: Colors.light.delete,
   },
 
   buttonText: {
-    color: "#fff",
+    color: Colors.light.primary,
     fontSize: 14,
   },
 });

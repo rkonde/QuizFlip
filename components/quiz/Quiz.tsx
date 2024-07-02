@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 import FlipCard from "@/components/quiz/ui/FlipCard";
+import { Colors } from "@/constants/Colors";
 import { RootStackScreenProps } from "@/navigation/types";
 import { selectQuiz } from "@/store/slices/quizSlice";
 import { Card } from "@/types/Card";
@@ -91,7 +92,7 @@ export default function Quiz() {
 
   return (
     <View style={styles.container}>
-      <Text>{quiz.title}</Text>
+      <Text style={styles.title}>{quiz.title}</Text>
       <View style={styles.container}>
         {quizCards
           .slice(0)
@@ -107,12 +108,16 @@ export default function Quiz() {
             />
           ))}
       </View>
-      <View style={{ padding: 8, flexDirection: "row", gap: 16 }}>
-        <Animated.Text style={correctTextAnimatedStyle}>
-          Corret: {correctAmount}
+      <View style={styles.scoreContainer}>
+        <Animated.Text
+          style={[styles.score, styles.wrongScore, wrongTextAnimatedStyle]}
+        >
+          {wrongAmount}
         </Animated.Text>
-        <Animated.Text style={wrongTextAnimatedStyle}>
-          Wrong: {wrongAmount}
+        <Animated.Text
+          style={[styles.score, styles.correctScore, correctTextAnimatedStyle]}
+        >
+          {correctAmount}
         </Animated.Text>
       </View>
     </View>
@@ -124,5 +129,37 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    padding: 16,
+  },
+
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+
+  scoreContainer: {
+    padding: 8,
+    flexDirection: "row",
+    gap: 40,
+  },
+
+  score: {
+    height: 64,
+    aspectRatio: 1,
+    borderRadius: 40,
+    textAlign: "center",
+    textAlignVertical: "center",
+    color: Colors.light.primary,
+    fontWeight: "bold",
+    fontSize: 32,
+  },
+
+  wrongScore: {
+    backgroundColor: Colors.light.delete,
+  },
+
+  correctScore: {
+    backgroundColor: Colors.light.confirm,
   },
 });

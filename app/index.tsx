@@ -15,7 +15,7 @@ export default function App() {
         <NavigationContainer independent={true}>
           <GestureHandlerRootView style={styles.container}>
             <SafeAreaView style={styles.container}>
-              <StatusBar backgroundColor={Colors.dark.background} />
+              <StatusBar backgroundColor={Colors.light.primary} style="dark" />
               <Navigation />
             </SafeAreaView>
           </GestureHandlerRootView>

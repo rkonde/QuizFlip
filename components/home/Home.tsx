@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CreateQuizButton from "@/components/home/ui/CreateQuizButton";
 import NoQuizzes from "@/components/home/ui/NoQuizzes";
 import QuizItem from "@/components/home/ui/QuizItem";
+import { Colors } from "@/constants/Colors";
 import { removeQuiz, selectQuizzes } from "@/store/slices/quizSlice";
 
 const Home = () => {
@@ -52,8 +53,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: Colors.light.primary,
   },
+
   title: {
     fontSize: 24,
     fontWeight: "bold",

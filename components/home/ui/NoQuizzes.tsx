@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import React from "react";
 import { StyleSheet, Text } from "react-native";
 
@@ -10,7 +11,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 20,
     fontSize: 16,
-    color: "#777",
+    color: Colors.light.secondary,
   },
 });
 

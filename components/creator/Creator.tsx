@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import { RootStackScreenProps } from "@/navigation/types";
 import { addQuiz, editQuiz, selectQuizzes } from "@/store/slices/quizSlice";
 import { Card } from "@/types/Card";
@@ -114,7 +115,7 @@ const QuizFormScreen = () => {
       <TouchableOpacity
         style={[
           styles.saveButton,
-          title.length === 0 && { backgroundColor: "#5e5e5e" },
+          title.length === 0 && { backgroundColor: Colors.light.secondary },
         ]}
         onPress={handleSaveQuiz}
         disabled={title.length === 0}
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: Colors.light.primary,
   },
   title: {
     fontSize: 24,
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: "#ccc",
+    borderColor: Colors.light.secondary,
     borderWidth: 1,
     borderRadius: 4,
     padding: 8,
@@ -155,46 +156,46 @@ const styles = StyleSheet.create({
   cardInput: {
     flex: 1,
     height: 40,
-    borderColor: "#ccc",
+    borderColor: Colors.light.secondary,
     borderWidth: 1,
     borderRadius: 4,
     padding: 8,
     marginHorizontal: 4,
   },
   removeButton: {
-    backgroundColor: "#ff4d4d",
+    backgroundColor: Colors.light.delete,
     padding: 8,
     borderRadius: 4,
   },
   removeButtonText: {
-    color: "#fff",
+    color: Colors.light.primary,
     fontSize: 14,
   },
   emptyText: {
     textAlign: "center",
     fontSize: 16,
-    color: "#777",
+    color: Colors.light.text,
     marginBottom: 8,
   },
   addButton: {
     padding: 16,
-    backgroundColor: "#007bff",
+    backgroundColor: Colors.light.edit,
     borderRadius: 8,
     alignItems: "center",
     marginBottom: 16,
   },
   addButtonText: {
-    color: "#fff",
+    color: Colors.light.primary,
     fontSize: 18,
   },
   saveButton: {
     padding: 16,
-    backgroundColor: "#28a745",
+    backgroundColor: Colors.light.confirm,
     borderRadius: 8,
     alignItems: "center",
   },
   saveButtonText: {
-    color: "#fff",
+    color: Colors.light.primary,
     fontSize: 18,
   },
 });

@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import { RootStackScreenProps } from "@/navigation/types";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React from "react";
@@ -13,9 +14,7 @@ const Summary = () => {
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.summaryText}>Correct Answers: {correctAnswers}</Text>
-      <Text style={styles.summaryText}>
-        Incorrect Answers: {incorrectAnswers}
-      </Text>
+      <Text style={styles.summaryText}>Wrong Answers: {incorrectAnswers}</Text>
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("Home")}
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: Colors.light.primary,
   },
   title: {
     fontSize: 24,
@@ -45,14 +44,14 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 16,
-    backgroundColor: "#007bff",
+    backgroundColor: Colors.light.edit,
     borderRadius: 8,
     alignItems: "center",
     marginTop: 16,
     width: "80%",
   },
   buttonText: {
-    color: "#fff",
+    color: Colors.light.primary,
     fontSize: 18,
   },
 });

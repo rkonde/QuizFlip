@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
@@ -8,7 +9,7 @@ type CreateQuizButtonProps = {
 const CreateQuizButton = ({ onPress }: CreateQuizButtonProps) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Text style={styles.text}>Create New Quiz</Text>
+      <Text style={styles.text}>Create Quiz</Text>
     </TouchableOpacity>
   );
 };
@@ -16,14 +17,14 @@ const CreateQuizButton = ({ onPress }: CreateQuizButtonProps) => {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    backgroundColor: "#28a745",
+    backgroundColor: Colors.light.confirm,
     borderRadius: 8,
     alignItems: "center",
     marginTop: 16,
   },
 
   text: {
-    color: "#fff",
+    color: Colors.light.primary,
     fontSize: 18,
   },
 });

@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import React, { useEffect } from "react";
 import { Dimensions, StyleSheet, Text } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -77,7 +78,7 @@ const FlipCard = ({
     const backgroundColor = interpolateColor(
       translationX.value,
       [-100, 0, 100],
-      ["#ff4242", "white", "#67f948"]
+      [Colors.light.delete, Colors.light.primary, Colors.light.confirm]
     );
 
     return {
@@ -101,7 +102,7 @@ const FlipCard = ({
     const backgroundColor = interpolateColor(
       translationX.value,
       [-100, 0, 100],
-      ["red", "white", "green"]
+      [Colors.light.delete, Colors.light.primary, Colors.light.confirm]
     );
 
     return {
@@ -130,7 +131,7 @@ const FlipCard = ({
   return (
     <Animated.View style={[styles.container, containerStyle]}>
       <GestureDetector gesture={Gesture.Race(tapGesture, panGesture)}>
-        <Animated.View style={{ position: "relative" }}>
+        <Animated.View>
           <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
             <Text style={styles.flipText}>{frontText}</Text>
           </Animated.View>
@@ -160,7 +161,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backfaceVisibility: "hidden",
     borderRadius: 24,
-    borderWidth: 4,
+    borderWidth: 2,
+    padding: 4,
   },
 
   flipCardBack: {
@@ -170,7 +172,7 @@ const styles = StyleSheet.create({
 
   flipText: {
     fontSize: 20,
-    color: "black",
+    color: Colors.light.text,
   },
 });
 
