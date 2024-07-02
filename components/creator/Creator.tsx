@@ -1,7 +1,8 @@
 import { RootStackScreenProps } from "@/navigation/types";
+import { addQuiz, editQuiz, selectQuizzes } from "@/store/slices/quizSlice";
 import { Card } from "@/types/Card";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -10,70 +11,77 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 const QuizFormScreen = () => {
   const navigation = useNavigation();
   const { params } = useRoute<RootStackScreenProps<"Creator">["route"]>();
 
-  const [quizTitle, setQuizTitle] = useState("");
+  const quizzes = useSelector(selectQuizzes);
+
+  const [title, setTitle] = useState("");
   const [cards, setCards] = useState<Card[]>([]);
 
-  //   useEffect(() => {
-  //     if (quizId) {
-  //       const quiz = quizzes.find(q => q.id === quizId);
-  //       if (quiz) {
-  //         setQuizTitle(quiz.title);
-  //         setCards(quiz.cards);
-  //       }
-  //     }
-  //   }, [quizId]);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (params?.quizId) {
+      const quiz = quizzes.find((quiz) => quiz.id === params.quizId);
+
+      if (quiz) {
+        setTitle(quiz.title);
+        setCards(quiz.cards);
+      }
+    }
+  }, []);
 
   const handleAddCard = () => {
-    setCards([...cards, { id: Date.now(), front: "", back: "" }]);
+    setCards([...cards, { front: "", back: "" }]);
   };
 
-  const handleRemoveCard = (id: number) => {
-    setCards(cards.filter((card) => card.id !== id));
+  const handleRemoveCard = (cardIndex: number) => {
+    setCards(cards.filter((card, index) => index !== cardIndex));
   };
 
   const handleSaveQuiz = () => {
-    // if (quizTitle && cards.length > 0) {
-    //   if (quizId) {
-    //     setQuizzes(quizzes.map(quiz => (quiz.id === quizId ? { ...quiz, title: quizTitle, cards } : quiz)));
-    //   } else {
-    //     setQuizzes([...quizzes, { id: Date.now(), title: quizTitle, cards }]);
-    //   }
-    //   navigation.goBack();
-    // }
+    if (params?.quizId) {
+      dispatch(editQuiz({ id: params.quizId, title, cards }));
+    } else {
+      dispatch(addQuiz({ title, cards }));
+    }
+
+    navigation.navigate("Home");
   };
 
   const handleCardChange = (
-    id: number,
+    cardIndex: number,
     field: "front" | "back",
     value: string
   ) => {
     setCards(
-      cards.map((card) => (card.id === id ? { ...card, [field]: value } : card))
+      cards.map((card, index) =>
+        index === cardIndex ? { ...card, [field]: value } : card
+      )
     );
   };
 
-  const renderCardItem = (card: Card) => (
-    <View style={styles.cardItem} key={card.id}>
+  const renderCardItem = (card: Card, cardIndex: number) => (
+    <View style={styles.cardItem} key={cardIndex}>
       <TextInput
         style={styles.cardInput}
         placeholder="Card Front"
         value={card.front}
-        onChangeText={(text) => handleCardChange(card.id, "front", text)}
+        onChangeText={(text) => handleCardChange(cardIndex, "front", text)}
       />
       <TextInput
         style={styles.cardInput}
         placeholder="Card Back"
         value={card.back}
-        onChangeText={(text) => handleCardChange(card.id, "back", text)}
+        onChangeText={(text) => handleCardChange(cardIndex, "back", text)}
       />
       <TouchableOpacity
         style={styles.removeButton}
-        onPress={() => handleRemoveCard(card.id)}
+        onPress={() => handleRemoveCard(cardIndex)}
       >
         <Text style={styles.removeButtonText}>Remove</Text>
       </TouchableOpacity>
@@ -83,18 +91,18 @@ const QuizFormScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
-        {params?.id ? "Edit Quiz" : "Create New Quiz"}
+        {params?.quizId ? "Edit Quiz" : "Create New Quiz"}
       </Text>
       <TextInput
         style={styles.input}
         placeholder="Quiz Title"
-        value={quizTitle}
-        onChangeText={setQuizTitle}
+        value={title}
+        onChangeText={setTitle}
       />
       <ScrollView style={{ flex: 1 }}>
         {cards.length > 0 ? (
-          cards.map((card) => {
-            return renderCardItem(card);
+          cards.map((card, index) => {
+            return renderCardItem(card, index);
           })
         ) : (
           <Text style={styles.emptyText}>No cards added yet</Text>
@@ -103,9 +111,16 @@ const QuizFormScreen = () => {
       <TouchableOpacity style={styles.addButton} onPress={handleAddCard}>
         <Text style={styles.addButtonText}>Add Card</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.saveButton} onPress={handleSaveQuiz}>
+      <TouchableOpacity
+        style={[
+          styles.saveButton,
+          title.length === 0 && { backgroundColor: "#5e5e5e" },
+        ]}
+        onPress={handleSaveQuiz}
+        disabled={title.length === 0}
+      >
         <Text style={styles.saveButtonText}>
-          {params?.id ? "Save Changes" : "Create Quiz"}
+          {params?.quizId ? "Save Changes" : "Create Quiz"}
         </Text>
       </TouchableOpacity>
     </View>

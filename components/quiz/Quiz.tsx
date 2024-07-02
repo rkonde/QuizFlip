@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 
 import FlipCard from "@/components/quiz/ui/FlipCard";
 import { RootStackScreenProps } from "@/navigation/types";
+import { selectQuiz } from "@/store/slices/quizSlice";
 import { Card } from "@/types/Card";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "expo-router";
@@ -13,16 +14,19 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+import { useSelector } from "react-redux";
 export default function Quiz() {
   const navigation = useNavigation();
   const {
-    params: { title, cards },
+    params: { quizId },
   } = useRoute<RootStackScreenProps<"Quiz">["route"]>();
+
+  const quiz = useSelector(selectQuiz(quizId));
 
   const [correctAmount, setCorrectAmount] = useState(0);
   const [wrongAmount, setWrongAmount] = useState(0);
 
-  const [quizCards, setQuizCards] = useState<Card[]>(cards);
+  const [quizCards, setQuizCards] = useState<Card[]>(quiz.cards);
 
   const correctTranslationY = useSharedValue(0);
   const wrongTranslationY = useSharedValue(0);
@@ -73,11 +77,11 @@ export default function Quiz() {
   useEffect(() => {
     if (
       quizCards.length === 0 &&
-      correctAmount + wrongAmount === cards.length
+      correctAmount + wrongAmount === quiz.cards.length
     ) {
       setTimeout(() => {
         navigation.navigate("Summary", {
-          title: title,
+          title: quiz.title,
           correctAnswers: correctAmount,
           incorrectAnswers: wrongAmount,
         });
@@ -87,7 +91,7 @@ export default function Quiz() {
 
   return (
     <View style={styles.container}>
-      <Text>{title}</Text>
+      <Text>{quiz.title}</Text>
       <View style={styles.container}>
         {quizCards
           .slice(0)

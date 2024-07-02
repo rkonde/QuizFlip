@@ -1,4 +1,4 @@
-import { quizzes } from "@/constants/Quizzes";
+import { removeQuiz, selectQuizzes } from "@/store/slices/quizSlice";
 import { Quiz } from "@/types/Quiz";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
@@ -9,27 +9,32 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 const Home = () => {
   const navigation = useNavigation();
 
+  const quizzes = useSelector(selectQuizzes);
+
+  const dispatch = useDispatch();
+
   const renderQuizItem = ({ item }: { item: Quiz }) => (
     <TouchableOpacity
       style={styles.quizItem}
-      onPress={() => navigation.navigate("Quiz", item)}
+      onPress={() => navigation.navigate("Quiz", { quizId: item.id })}
     >
       <View style={styles.quizHeader}>
         <Text style={styles.quizTitle}>{item.title}</Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.editButton}
-            onPress={() => navigation.navigate("Creator")}
+            onPress={() => navigation.navigate("Creator", { quizId: item.id })}
           >
             <Text style={styles.buttonText}>Edit</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.deleteButton}
-            onPress={() => console.log(item.title)}
+            onPress={() => dispatch(removeQuiz(item.id))}
           >
             <Text style={styles.buttonText}>Delete</Text>
           </TouchableOpacity>

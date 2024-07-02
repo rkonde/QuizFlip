@@ -1,7 +1,7 @@
 import { Card } from "@/types/Card";
 
 export type Quiz = {
-  id: number;
+  id: string;
   title: string;
   cards: Card[];
 };
