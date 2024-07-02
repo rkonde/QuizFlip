@@ -1,12 +1,7 @@
 import { Colors } from "@/constants/Colors";
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 
 type FrontBackInputProps = {
   front: string;
@@ -24,7 +19,11 @@ const FrontBackInput = ({
   onDelete,
 }: FrontBackInputProps) => {
   return (
-    <View style={styles.cardItem}>
+    <Animated.View
+      style={styles.cardItem}
+      entering={FadeInDown}
+      exiting={FadeInUp}
+    >
       <TextInput
         style={styles.cardInput}
         placeholder="Card Front"
@@ -40,7 +39,7 @@ const FrontBackInput = ({
       <TouchableOpacity style={styles.removeButton} onPress={onDelete}>
         <Text style={styles.removeButtonText}>Delete</Text>
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   );
 };
 
