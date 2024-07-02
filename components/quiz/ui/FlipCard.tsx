@@ -1,4 +1,3 @@
-import { Colors } from "@/constants/Colors";
 import React, { useEffect } from "react";
 import { Dimensions, StyleSheet, Text } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -11,6 +10,8 @@ import Animated, {
   withSpring,
   withTiming,
 } from "react-native-reanimated";
+
+import { Colors } from "@/constants/Colors";
 
 const { width } = Dimensions.get("window");
 

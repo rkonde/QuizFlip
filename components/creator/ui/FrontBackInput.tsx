@@ -1,7 +1,8 @@
-import { Colors } from "@/constants/Colors";
 import React from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+
+import { Colors } from "@/constants/Colors";
 
 type FrontBackInputProps = {
   front: string;

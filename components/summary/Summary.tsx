@@ -1,8 +1,9 @@
-import { Colors } from "@/constants/Colors";
-import { RootStackScreenProps } from "@/navigation/types";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+import { Colors } from "@/constants/Colors";
+import { RootStackScreenProps } from "@/navigation/types";
 
 const Summary = () => {
   const navigation = useNavigation();

@@ -1,13 +1,7 @@
-import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
-
-import FlipCard from "@/components/quiz/ui/FlipCard";
-import { Colors } from "@/constants/Colors";
-import { RootStackScreenProps } from "@/navigation/types";
-import { selectQuiz } from "@/store/slices/quizSlice";
-import { Card } from "@/types/Card";
 import { useRoute } from "@react-navigation/native";
 import { useNavigation } from "expo-router";
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -16,6 +10,13 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useSelector } from "react-redux";
+
+import FlipCard from "@/components/quiz/ui/FlipCard";
+import { Colors } from "@/constants/Colors";
+import { RootStackScreenProps } from "@/navigation/types";
+import { selectQuiz } from "@/store/slices/quizSlice";
+import { Card } from "@/types/Card";
+
 export default function Quiz() {
   const navigation = useNavigation();
   const {

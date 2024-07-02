@@ -1,7 +1,3 @@
-import { Colors } from "@/constants/Colors";
-import { RootStackScreenProps } from "@/navigation/types";
-import { addQuiz, editQuiz, selectQuizzes } from "@/store/slices/quizSlice";
-import { Card } from "@/types/Card";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
@@ -13,7 +9,12 @@ import {
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import FrontBackInput from "./ui/FrontBackInput";
+
+import FrontBackInput from "@/components/creator/ui/FrontBackInput";
+import { Colors } from "@/constants/Colors";
+import { RootStackScreenProps } from "@/navigation/types";
+import { addQuiz, editQuiz, selectQuizzes } from "@/store/slices/quizSlice";
+import { Card } from "@/types/Card";
 
 const QuizFormScreen = () => {
   const navigation = useNavigation();
