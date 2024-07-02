@@ -11,32 +11,40 @@ The app then provides a summary of the quiz.
   <img src="./screenshots/home.png" width="270" height="585" />
   <br />
   <h2>Create / Edit Quiz</h2>
-  <img src="./screenshots/creator_empty.png" width="270" height="585" />
-  <img src="./screenshots/creator_edit.png" width="270" height="585" />
+  <div style="display: flex; gap: 4px">
+            <img src="./screenshots/creator_empty.png" width="270" height="585" />
+            <img src="./screenshots/creator_edit.png" width="270" height="585" />    
+    </div>
   <br />
   <h2>Quiz</h2>
   <img src="./screenshots/quiz.png" width="270" height="585" />
   <br />
   <h2>Swipe right for correct</h2>
-  <img src="./screenshots/quiz_swipe_right.png" width="270" height="585" />
-  <img
-    src="./screenshots/quiz_swipe_right_result.png"
-    width="270"
-    height="585"
-  />
+  <div style="display: flex; gap: 4px">
+      <img src="./screenshots/quiz_swipe_right.png" width="270" height="585" />
+      <img
+      src="./screenshots/quiz_swipe_right_result.png"
+      width="270"
+      height="585"
+      />
+    </div>
   <br />
   <h2>Swipe left for wrong</h2>
-  <img src="./screenshots/quiz_swipe_left.png" width="270" height="585" />
-  <img
-    src="./screenshots/quiz_swipe_left_result.png"
-    width="270"
-    height="585"
-  />
+  <div style="display: flex; gap: 4px">
+    <img src="./screenshots/quiz_swipe_left.png" width="270" height="585" />
+      <img
+      src="./screenshots/quiz_swipe_left_result.png"
+      width="270"
+      height="585"
+      />
+    </div>
   <br />
   <h2>Front and back of the card</h2>
-  <img src="./screenshots/quiz_front.png" width="270" height="585" />
-  <img src="./screenshots/quiz_back.png" width="270" height="585" />
-  <br />
+  <div style="display: flex; gap: 4px">
+      <img src="./screenshots/quiz_front.png" width="270" height="585" />
+      <img src="./screenshots/quiz_back.png" width="270" height="585" />
+    </div>
+      <br />
   <h2>Summary</h2>
   <img src="./screenshots/summary.png" width="270" height="585" />
 </p>
